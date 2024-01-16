@@ -1,3 +1,5 @@
+use std::env;
+
 use axum::body::Body;
 use axum::http::Response;
 use axum::{
@@ -6,6 +8,7 @@ use axum::{
     routing::{delete, get, post},
     Json, Router,
 };
+use mongodb::{options::ClientOptions, Client};
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
@@ -17,6 +20,12 @@ struct Resource {
 
 #[tokio::main]
 async fn main() {
+    let uri = env::var("MONGODB_URL").expect("set environment var: MONGODB_URL");
+    let mut options = ClientOptions::parse(&uri).await.unwrap();
+    options.app_name = Some("Costyrion".to_string());
+    let client = Client::with_options(options).unwrap(); // Unwrap the Result to get the Client instance
+    let db = client.database("costyrion");
+
     let app = app();
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
     axum::serve(listener, app).await.unwrap();

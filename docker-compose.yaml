@@ -1,29 +1,16 @@
-version: '3.9'
+version: '3.8'
 services:
-    postgres:
-        image: postgres:latest
-        container_name: PG-COSTYRION
-        networks:
-          - default
-        restart: always
-        environment:
-          - POSTGRES_USER=postgres
-          - POSTGRES_PASSWORD=postgres
-          - POSTGRES_DB=costyrion
-        logging:
-          options:
-            max-size: 10m
-            max-file: "3"
-        ports:
-          - '5432:5432'
-        command:
-          - "postgres"
-          - "-c"
-          - "shared_preload_libraries=pg_stat_statements"
-        volumes: 
-          - ${HOME}/Postgres/COSTYRION:/var/lib/postgresql/data
-          # - ${HOME}/Postgres/postgres.sql:/docker-entrypoint-initdb.d/postgres.sql
+  mongodb:
+    image: mongo:latest
+    container_name: MONGO_COSTYRION
+    networks:
+      - default
+    restart: always
+    ports:
+      - '27017:27017'
+    volumes: 
+      - ${HOME}/Mongo/COSTYRION:/data/db
 
 networks:
     default:
-        name: pgn-costyrion
+        name: mongo-costryion
