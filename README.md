@@ -60,3 +60,20 @@
         Fixed,
         Variable,
     }
+
+### Activities - domain modelling
+
+    pub struct Activity {}
+    pub struct ActivityOutputMeasure {}
+    pub struct ProcessOwner {}
+    pub struct ActivityCostDriver{}
+    pub struct ActivityPerformanceMeasure {}
+    pub struct ActivityTrigger {}
+    pub struct ActivityInput {}
+    pub struct ActivityOutput {}
+
+    pub enum ActivityType {
+        Podstawowe,
+        Zarządcze,
+        Wspierające,
+    }
